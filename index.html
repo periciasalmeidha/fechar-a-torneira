@@ -2,6 +2,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fechar a Torneira</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1756985928901338');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1756985928901338&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
 <style>
   :root{
     --paper:#FBFAF7; --surface:#FFFFFF; --ink:#16263A; --ink-soft:#33475C;
@@ -210,7 +226,7 @@
         <a class="cta" href="#oferta" data-checkout><span>Quero fechar a torneira</span><span class="arw">→</span></a>
         <div class="priceline">
           <span class="old">R$ 47</span>
-          <span class="new">R$ 27 <small>Pix ou cartão</small></span>
+          <span class="new">R$ 27 <small>no Pix</small></span>
         </div>
       </div>
     </div>
@@ -327,7 +343,7 @@
         <div class="bigprice">
           <span class="old">de R$ 47</span>
           <div class="now"><sup>R$</sup> 27</div>
-          <div class="terms">pagamento único · Pix ou cartão · acesso na hora</div>
+          <div class="terms">pagamento único · Pix · acesso na hora</div>
         </div>
         <a class="cta" href="#" data-checkout><span>Quero meu e-book agora</span><span class="arw">→</span></a>
         <div class="paynote">
@@ -385,7 +401,15 @@
      A própria plataforma confirma o pagamento e entrega o PDF.
      Ex.: const CHECKOUT_URL = "https://pay.kiwify.com.br/xxxxxxx";
      ========================================================== */
-  const CHECKOUT_URL = "https://pay.kiwify.com.br/yJsESV8";
+  const CHECKOUT_URL = "https://pay.kiwify.com.br/yJsESV8?hideCard=true";
+  function buildCheckoutUrl(){
+    try{
+      var u=new URL(CHECKOUT_URL);
+      var incoming=new URLSearchParams(window.location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','fbclid'].forEach(function(k){ var v=incoming.get(k); if(v) u.searchParams.set(k,v); });
+      return u.toString();
+    }catch(e){ return CHECKOUT_URL; }
+  }
 
   (function(){
     const btns = document.querySelectorAll('[data-checkout]');
@@ -395,7 +419,7 @@
       b.addEventListener('click', function(e){
         e.preventDefault();
         if(ok){
-          window.open(CHECKOUT_URL, '_blank', 'noopener');
+          window.open(buildCheckoutUrl(), '_blank', 'noopener');
         }else{
           document.getElementById('oferta').scrollIntoView({behavior:'smooth',block:'center'});
           if(warn){ warn.classList.add('show'); }
